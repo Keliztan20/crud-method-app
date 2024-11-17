@@ -1,0 +1,14 @@
+1. git clone https://github.com/Keliztan20/crud-method-app.git
+
+2. database script.sql execute to add this database to your local system
+
+3. Change your local Databse "bool-internship-project-backend/config.py"
+	DATABASE_URL = "mysql+pymysql://root:yourpassword@localhost/userdata"
+
+2. bool-internship-project-backend intergrated terminal run command 
+	uvicorn main:app --reload 
+3. bool-internship-project-frontend intergrated terminal run command 
+	1. npm install
+	2. ng serve
+
+
