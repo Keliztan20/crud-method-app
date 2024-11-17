@@ -1,0 +1,155 @@
+<div class="container">
+    <h2>Manage Users</h2>
+    <p></p>
+    <div class="container1">
+        <div class="search-bar-user">
+            <input type="text" #fnameInput placeholder="first name">
+            <input type="text" #lnameInput placeholder="last name">
+            <select id="userRoles" #rolenameSelect>
+                <option value="" disabled selected>Select a role</option>
+                <option *ngFor="let user of users">{{user.role_name}}</option>
+            </select>
+            <button (click)="filterUsers(fnameInput.value, lnameInput.value, rolenameSelect.value)">Search</button>
+            <button (click)="openAddUser()">Add user</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Role Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of displayedUsers">
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.last_name }}</td>
+                    <td>{{ user.role_name }}</td>
+                    <td><a (click)="openUserView(user)">View</a> |
+                        <a (click)="openUserEdit(user)">Edit</a> |
+                        <a (click)="openUserDelete(user)">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <td></td>
+    </div>
+    <!-- Pagination -->
+    <div class="clearfix">
+        <div class="hint-text">Showing <b>{{ (currentPage - 1) * usersPerPage + 1 }}</b> to <b>{{ (currentPage *
+                usersPerPage) > users.length ? users.length : currentPage * usersPerPage }}</b> of <b>{{ users.length
+                }}</b> entries</div>
+
+        <ul class="pagination">
+            <!-- Previous Group Button -->
+            <li class="page-item" (click)="previousGroup()" [class.disabled]="currentPage <= 5">
+                <a href="#" class="page-link">Previous</a>
+            </li>
+
+            <!-- Page Numbers -->
+            <li class="page-item" *ngFor="let page of currentPageGroup" [class.active]="page === currentPage"
+                (click)="changePage(page)">
+                <a href="#" class="page-link">{{ page }}</a>
+            </li>
+
+            <!-- Next Group Button -->
+            <li class="page-item" (click)="nextGroup()" [class.disabled]="currentPage + 5 > totalPages">
+                <a href="#" class="page-link">Next</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- View Modal Structure -->
+<div id="view-user" class="modal">
+    <div class="modal-content">
+        <h3>User details</h3>
+        <span class="box">
+            <div class="m_p">
+                <p><strong>First name:&emsp;</strong> {{ selectedUser?.first_name }}</p>
+                <p><strong>Last name:&emsp;</strong> {{ selectedUser?.last_name }}</p>
+                <p><strong>Role name:&emsp;</strong> {{ selectedUser?.role_name }}</p>
+            </div>
+        </span>
+        <div class="popup-close">
+            <button (click)="closeUserPopup()">Close</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add User Modal Structure -->
+<div id="add-user" class="modal">
+    <div class="modal-content">
+        <h3>Add user</h3>
+        <span class="box">
+            <p><strong style="color: red;">User id automatically added</strong></p>
+            <p>First name</p>
+            <input type="text" #firstNameInput required>
+            <p></p>
+            <p>Last name</p>
+            <input type="text" #lastNameInput required>
+            <p></p>
+            <p>User role</p>
+            <select id="userRoles" #roleselect required>
+                <option value="" disabled selected>Select user role</option>
+                <option *ngFor="let role of roles" [value]="role.role_name">{{ role.role_name }}</option>
+            </select>
+            <div class="button-container">
+                <span>
+                    <button
+                        (click)="addUser(firstNameInput.value, lastNameInput.value, roleselect.selectedIndex)">Submit</button>
+                    <button (click)="closeUserPopup()">Cancel</button>
+                </span>
+            </div>
+        </span>
+    </div>
+</div>
+
+<!-- Edit User Modal Structure -->
+<div id="edit-user" class="modal">
+    <div class="modal-content">
+        <h3>Edit user</h3>
+        <form>
+            <span class="box">
+                <p>User id</p>
+                <input type="text" placeholder="Check id" value="{{selectedUser?.user_id}}" [readOnly]="true">
+                <p>First name</p>
+                <input type="text" #firstNameInputs [value]="selectedUser?.first_name" required>
+                <p></p>
+                <p>Last name</p>
+                <input type="text" #lastNameInputs [value]="selectedUser?.last_name" required />
+                <p></p>
+                <p>User role</p>
+                <select id="userRoles" #roleSelect [value]="selectedUser?.role_name" required>
+                    <option value="" disabled selected>Select user role</option>
+                    <option *ngFor="let role of roles"> {{role.role_name}}</option>
+                </select>
+                <div class="button-container">
+                    <span>
+                        <button
+                            (click)="updateUser(firstNameInputs.value, lastNameInputs.value, roleSelect.selectedIndex)">Save</button>
+                        <button (click)="closeUserPopup()">Cancel</button>
+                    </span>
+                </div>
+            </span>
+        </form>
+    </div>
+</div>
+
+<!-- Delete User Modal Structure -->
+<div id="delete-user" class="modal">
+    <div class="modal-content">
+        <h3>Confirm</h3>
+        <span class="box">
+            <p>Are you sure, you want to delete this user record?</p>
+            <div class="button-container">
+                <span>
+                    <button (click)="deleteUser()">Yes</button>
+                    <button (click)="closeUserPopup()">No</button>
+                </span>
+            </div>
+        </span>
+    </div>
+</div>

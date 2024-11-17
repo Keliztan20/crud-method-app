@@ -1,0 +1,21 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "UserMng",
+            "username": "root",
+            "database": "userdata",
+            "password": "1234"
+        }
+    ],
+    "python.analysis.extraPaths": [
+        "./bool-internship-project-backend"
+    ]
+}
